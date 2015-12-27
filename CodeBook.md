@@ -1,18 +1,17 @@
 # Introduction
 
-The script `run_analysis.R`performs the 5 steps described in the course project's definition.
-
-* First, all the similar data is merged using the `rbind()` function. By similar, we address those files having the same number of columns and referring to the same entities.
-* Then, only those columns with the mean and standard deviation measures are taken from the whole dataset. After extracting these columns, they are given the correct names, taken from `features.txt`.
-* As activity data is addressed with values 1:6, we take the activity names and IDs from `activity_labels.txt` and they are substituted in the dataset.
-* On the whole dataset, those columns with vague column names are corrected.
-* Finally, we generate a new dataset with all the average measures for each subject and activity type (30 subjects * 6 activities = 180 rows). The output file is called `averages_data.txt`, and uploaded to this repository.
-
+The script "run_analysis.R" provides the code which performs all the 5 steps described in the course project:
+- first, it reads all the necessary data to find all variables with mean/std;
+- then, it finds all the rows with such strings: I did it in such way to subset the big data in the moment of reading it, instead of doing it later;
+- later, it reads all the data (x_trains, x_tests, etc), but using only those rows found in the previous step;
+- then, it all binds the data together (cbind);
+- finally, it adds the appropriate labels and variable names and then it calculates required average measures for each subject and activity type (the output is called "tidy.txt")
+ 
 # Variables
-
-* `x_train`, `y_train`, `x_test`, `y_test`, `subject_train` and `subject_test` contain the data from the downloaded files.
-* `x_data`, `y_data` and `subject_data` merge the previous datasets to further analysis.
-* `features` contains the correct names for the `x_data` dataset, which are applied to the column names stored in `mean_and_std_features`, a numeric vector used to extract the desired data.
-* A similar approach is taken with activity names through the `activities` variable.
-* `all_data` merges `x_data`, `y_data` and `subject_data` in a big dataset.
-* Finally, `averages_data` contains the relevant averages which will be later stored in a `.txt` file. `ddply()` from the plyr package is used to apply `colMeans()` and ease the development.
+- "features" contains the correct names of the features for the final dataset ("allData"), which are applied to the column names stored in "meanStd_cols", a numeric vector which points to rows of desired data;
+- "activityLabels" contains the correct names of activities for the final dataset ("allData");
+- "x_train", "y_train", "x_test", "y_test", "subject_train" and "subject_test" contain the data from the downloaded files of the corresponding names;
+- "train" merges (cbind) all train data ("x_train", "y_train" and "subject_train");
+- "test" merges (cbind) all test data ("x_test", "y_test" and "subject_test");
+- "allData" merges "train" and "test" in a big dataset;
+- finally, "allData.mean" contains the relevant averages which will be later stored in a "tidy.txt" file.
